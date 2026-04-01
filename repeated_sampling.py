@@ -66,6 +66,16 @@ if __name__ == "__main__":
                     for key, value in verification_result["analysis"].items():
                         print(f"  {key}: {value}")
 
+                # Print compilation errors if available
+                details = verification_result.get("details", {})
+                if details.get("compilation_errors"):
+                    print("\nCompilation Errors:")
+                    for err in details["compilation_errors"]:
+                        print(f"  - Type: {err.get('type', 'N/A')}")
+                        print(f"    Message: {err.get('message', 'N/A')}")
+                        if err.get("line"):
+                            print(f"    Line: {err.get('line')}")
+
                 # Print hints
                 if verification_result.get("hints"):
                     print("\nHints:")
@@ -73,7 +83,6 @@ if __name__ == "__main__":
                         print(f"  - {hint}")
 
                 # Print details if available
-                details = verification_result.get("details", {})
                 if details.get("addresses_read"):
                     print(f"\nAddresses read: {details['addresses_read']}")
                 if details.get("addresses_written"):
